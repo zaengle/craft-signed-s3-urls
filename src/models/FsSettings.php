@@ -18,7 +18,7 @@ class FsSettings extends Model
     /**
      * @var DateTimeInterface|int|string How long should the signed URL be valid for
      */
-    public  DateTimeInterface|int|string $expires = "+1 minutes";
+    public DateTimeInterface|int|string $expires = "+1 minutes";
     /**
      * @var Closure optionally customise the challenge to apply to requests for assets in this fs, receives the
      * asset its only argument

@@ -45,7 +45,7 @@ class Fs extends Component
         /**
          * @var ?array $fsSettings
          */
-        $fsSettings = $pluginSettings['filesystems'][$fs->handle] ?? false;
+        $fsSettings = $pluginSettings['filesystems'][$fs->handle ?? null] ?? false;
 
         if ($fsSettings) {
             return new FsSettingsModel($fsSettings);
