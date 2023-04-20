@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 /**
- * AWS S3 Signed URLs plugin for Craft CMS 3.x
+ * AWS S3 Signed URLs plugin for Craft CMS 4.x
  *
  * Signed URLs for AWS S3 Craft Asset Filesystems, including the ability to limit access.
  *
  * @link      https://zaengle.com
- * @copyright Copyright (c) 2022 Zaengle Corp
+ * @copyright Copyright (c) 2023 Zaengle Corp
  */
 
 namespace zaengle\awss3signedurls;
@@ -44,10 +44,7 @@ class AwsS3SignedUrls extends Plugin
     // Static Properties
     // =========================================================================
 
-    /**
-     * @var AwsS3SignedUrls
-     */
-    public static $plugin;
+    public static AwsS3SignedUrls $plugin;
 
     // Public Properties
     // =========================================================================
@@ -108,7 +105,7 @@ class AwsS3SignedUrls extends Plugin
             Asset::EVENT_DEFINE_URL,
             function (DefineAssetUrlEvent $event) {
                 if ($this->fs->isProtected($event->sender->getFs())) {
-                    $event->url = $this->challenges->getChallengeUrl($event->asset);
+                    $event->url = $this->challenges->getChallengeUrl($event->sender);
                 }
             }
         );
@@ -120,7 +117,7 @@ class AwsS3SignedUrls extends Plugin
     protected function afterInstall(): void
     {
         $configSource = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR. 'config.example.php';
-        $configTarget = \Craft::$app->getConfig()->configDir . DIRECTORY_SEPARATOR . 'aws-s3-signed-urls.php';
+        $configTarget = \Craft::$app->getConfig()->configDir . DIRECTORY_SEPARATOR . 'awss3signedurls.php';
 
         if (! file_exists($configTarget)) {
             copy($configSource, $configTarget);

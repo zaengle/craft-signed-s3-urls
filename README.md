@@ -1,43 +1,99 @@
-# AWS S3 Signed URLs plugin for Craft CMS 3.x
+# AWS S3 Signed URLs plugin for Craft CMS 4.x
 
-Signed URLs for AWS S3 Craft Asset Volumes, including the ability to limit access.
-
-![Screenshot](resources/img/plugin-logo.png)
+Generate signed URLs for AWS S3 Craft Asset Volumes, including the ability to limit access.
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires:
+- Craft CMS 4.3.0+
+- "craftcms/aws-s3" 2.0+
+- PHP 8.0+
 
 ## Installation
 
-To install the plugin, follow these instructions.
+```shell
+composer require zaengle/craft-awss3signedurls
+craft plugin/install awss3signedurls
+```
+or with ddev:
 
-1. Open your terminal and go to your Craft project:
+```shell
+ddev composer require zaengle/craft-awss3signedurls
+ddev craft plugin/install awss3signedurls
+```
 
-        cd /path/to/project
 
-2. Then tell Composer to load the plugin:
+## Overview
 
-        composer require zaengle/aws-s3-signed-urls
+The plugin is configured entirely via the config file at `config/aws-s3-signed-urls.php`.  The config file is 
+automatically generated when the plugin is installed. There is no Control Panel interface.
 
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for AWS S3 Signed URLs.
+## Configuration
 
-## AWS S3 Signed URLs Overview
+The config file must return an array with a `filesystems` key.  The `filesystems` key should be an associative array that
+maps a Filesystem handle to an array of `FsSettings`.
 
--Insert text here-
+### Per FS Configuration
 
-## Configuring AWS S3 Signed URLs
+The supported keys for the `FsSettings` array are:
 
--Insert text here-
+`protect` - (bool) Whether to protect the FS with signed URLs.  Defaults to `false`.
+`expires` - (DateTimeInterface|string|int) Duration that the signed URL is valid for, can be a `\DateInterval` parsable string ,or a 
+number of seconds.  Defaults to `+1 minutes`.
+`challenge` - (Closure) Optionally customise the challenge callback. By default, the plugin just requires a logged-in user.
+Callbacks receive the Asset as their only argument.
+`failureHandler` - (Closure) Optionally customise the failure handler callback.  By default, the plugin just redirects to
+the login page.  Callbacks receive the Asset + Controller instance as their arguments.
 
-## Using AWS S3 Signed URLs
+You only need add keys to `filesystems` for the Filesystems you want to protect.
 
--Insert text here-
+### Example Configuration
 
-## AWS S3 Signed URLs Roadmap
+```php
+<?php
+use Craft;
+use craft\elements\Asset;
+use craft\web\Controller;
+return [
+    'filesystems' => [
+        'myS3Fs' => [
+            'protect' => true,
+            // Duration that the signed URL is valid for, can be a \DateInterval parsable string ,or a number of seconds
+            'expires'  => "+1 minutes",
+//            Require user to be logged in and have a specific permission
+            'challenge' => static function (Asset $asset): bool
+            {
+                $userSession = Craft::$app->getUser();
+                
+                if ($userSession->checkPermission('myCustomPermission'))
+                {
+                    return true;
+                }
+                return false;
+            },
+//            Optionally customise the failure handler callback
+//            By default the plugin just redirects to the login page
+//            Callbacks receive the Asset + Controller instance as their arguments
+            'failureHandler' => static function (Asset $asset, Controller $controller): mixed
+            {
+                $userSession = Craft::$app->getUser();
 
-Some things to do, and ideas for potential features:
+                $userSession->loginRequired();
+                Craft::$app->end();
+            },
+        ],
+    ],
+];
+```
 
-* Release it
+## Using Protected Assets in Templates / Elsewhere
+
+No changes to your templates are required. The plugin will automatically override the URLs for Assets in protected 
+Filesystem with a challenge URL. Requests to the challenge URL will redirect to a signed URL if the challenge is 
+successful for the user that makes the request. 
+
+## Credits
 
 Brought to you by [Zaengle Corp](https://zaengle.com)
+
+Icon is guard by Rflor from [The Noun Project](https://thenounproject.com/browse/icons/term/guard/) (CCBY3.0)

@@ -4,12 +4,12 @@ declare(strict_types=1);
 /** @noinspection ALL */
 
 /**
- * AWS S3 Signed URLs plugin for Craft CMS 3.x
+ * AWS S3 Signed URLs plugin for Craft CMS 4.x
  *
  * Signed URLs for AWS S3 Craft Asset Filesystems, including the ability to limit access.
  *
  * @link      https://zaengle.com
- * @copyright Copyright (c) 2022 Zaengle Corp
+ * @copyright Copyright (c) 2023 Zaengle Corp
  */
 
 namespace zaengle\awss3signedurls\services;
@@ -47,7 +47,7 @@ class Challenges extends Component
          */
         $fsSettings = AwsS3SignedUrls::getInstance()->fs->getSettings($asset->getFs());
 
-        $challenge = $fsSettings->challenge ?? [$this, 'defaultChallenge'];
+        $challenge = $fsSettings->challenge ?? \Closure::fromCallable([$this, 'defaultChallenge']);
 
         return $challenge($asset);
     }
@@ -64,7 +64,7 @@ class Challenges extends Component
          */
         $fsSettings = AwsS3SignedUrls::getInstance()->fs->getSettings($asset->getFs());
 
-        $handler = $fsSettings->failureHandler ?? [$this, 'defaultFailureHandler'];
+        $handler = $fsSettings->failureHandler ?? \Closure::fromCallable([$this, 'defaultFailureHandler']);
 
         return $handler($asset, $controller);
     }
@@ -75,17 +75,18 @@ class Challenges extends Component
     }
 
     /**
-     * By default, just check that there is a logged in user
+     * By default, just check that there is a logged-in user
+     * @param Asset $asset
      * @return bool
      * @throws \Throwable
      */
-    public function defaultChallenge(): bool
+    public function defaultChallenge(Asset $asset): bool
     {
         return (bool) Craft::$app->getUser()->getIdentity();
     }
 
     /**
-     * By default, redirect to login
+     * By default, redirect to log in
      * @param Asset $asset
      * @param Controller $controller
      * @return void

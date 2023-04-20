@@ -1,5 +1,5 @@
 {
-    "name": "zaengle/craft-aws-s3-signed-urls",
+    "name": "zaengle/craft-awss3signedurls",
     "description": "Signed URLs for AWS S3 Craft Asset Volumes, including the ability to limit access.",
     "type": "craft-plugin",
     "version": "1.0.0",
@@ -8,11 +8,11 @@
         "cms",
         "craftcms",
         "craft-plugin",
-        "aws s3 signed urls"
+        "s3"
     ],
     "support": {
-        "docs": "https://github.com/zaengle/craft-aws-s3-signed-urls/blob/master/README.md",
-        "issues": "https://github.com/zaengle/craft-aws-s3-signed-urls/issues"
+        "docs": "https://github.com/zaengle/craft-awss3signedurls/blob/main/README.md",
+        "issues": "https://github.com/zaengle/craft-awss3signedurls/issues"
     },
     "license": "MIT",
     "authors": [
@@ -22,11 +22,12 @@
         }
     ],
     "require": {
-        "php": "^7.2.5|^8.0|^8.1",
-        "craftcms/cms": "^4.1.0",
+        "php": "^8.0|^8.1|^8.2",
+        "craftcms/cms": "^4.3.0",
         "craftcms/aws-s3": "^2.0"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/phpstan": "^1.4"
     },
@@ -37,11 +38,11 @@
     },
     "extra": {
         "name": "AWS S3 Signed URLs",
-        "handle": "aws-s3-signed-urls",
+        "handle": "awss3signedurls",
         "developer": "Zaengle Corp",
         "developerUrl": "https://zaengle.com",
-        "documentationUrl": "https://github.com/zaengle/craft-aws-s3-signed-urls/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/zaengle/craft-aws-s3-signed-urls/master/CHANGELOG.md",
+        "documentationUrl": "https://github.com/zaengle/craft-awss3signedurls/blob/main/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/zaengle/craft-awss3signedurls/main/CHANGELOG.md",
         "components": {
             "awsS3SignedUrlsService": "Sign"
         },

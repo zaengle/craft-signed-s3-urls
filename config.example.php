@@ -1,9 +1,9 @@
 <?php
 /**
- * AWS S3 Signed URLs plugin for Craft CMS 3.x
+ * AWS S3 Signed URLs plugin for Craft CMS 4.x
  *
  * @link      https://zaengle.com
- * @copyright Copyright (c) 2022 Zaengle Corp
+ * @copyright Copyright (c) 2023 Zaengle Corp
  */
 
 use Craft;
