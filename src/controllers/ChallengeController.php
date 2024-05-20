@@ -50,13 +50,13 @@ class ChallengeController extends Controller
     // =========================================================================
     public function beforeAction($action): bool
     {
-        if (! parent::beforeAction($action)) {
+        if (!parent::beforeAction($action)) {
             return false;
         }
 
         $request = Craft::$app->getRequest();
 
-        if (! $request->isGet) {
+        if (!$request->isGet) {
             throw new BadRequestHttpException();
         }
 
@@ -75,13 +75,13 @@ class ChallengeController extends Controller
      */
     public function actionIndex(string $assetUid = null): mixed
     {
-        if (! $assetUid) {
+        if (!$assetUid) {
             throw new BadRequestHttpException();
         }
 
         $asset = Asset::findOne(['uid' => $assetUid]);
 
-        if (! $asset) {
+        if (!$asset) {
             throw new NotFoundHttpException();
         }
 

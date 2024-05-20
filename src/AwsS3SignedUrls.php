@@ -84,7 +84,7 @@ class AwsS3SignedUrls extends Plugin
         Event::on(
             UrlManager::class,
             name: UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            handler: function (RegisterUrlRulesEvent $event) {
+            handler: function(RegisterUrlRulesEvent $event) {
                 $event->rules[self::ROUTE_PROTECTED_ASSET . '<assetUid:{uid}>'] = "$this->handle/challenge";
             }
         );
@@ -92,7 +92,7 @@ class AwsS3SignedUrls extends Plugin
         Event::on(
             UrlManager::class,
             name: UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            handler: function (RegisterUrlRulesEvent $event) {
+            handler: function(RegisterUrlRulesEvent $event) {
                 $event->rules[self::ROUTE_PROTECTED_ASSET . '<assetUid:{uid}>'] = "$this->handle/challenge";
             }
         );
@@ -103,7 +103,7 @@ class AwsS3SignedUrls extends Plugin
         Event::on(
             Asset::class,
             Asset::EVENT_DEFINE_URL,
-            function (DefineAssetUrlEvent $event) {
+            function(DefineAssetUrlEvent $event) {
                 if ($this->fs->isProtected($event->sender->getFs())) {
                     $event->url = $this->challenges->getChallengeUrl($event->sender);
                 }
@@ -116,10 +116,10 @@ class AwsS3SignedUrls extends Plugin
      */
     protected function afterInstall(): void
     {
-        $configSource = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR. 'config.example.php';
+        $configSource = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config.example.php';
         $configTarget = \Craft::$app->getConfig()->configDir . DIRECTORY_SEPARATOR . 'awss3signedurls.php';
 
-        if (! file_exists($configTarget)) {
+        if (!file_exists($configTarget)) {
             copy($configSource, $configTarget);
         }
     }

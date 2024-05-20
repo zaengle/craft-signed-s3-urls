@@ -1,61 +1,44 @@
 {
-    "name": "zaengle/craft-awss3signedurls",
-    "description": "Signed URLs for AWS S3 Craft Asset Volumes, including the ability to limit access.",
-    "type": "craft-plugin",
-    "version": "1.0.0",
-    "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "craft-plugin",
-        "s3"
-    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true
+
+    },
     "support": {
-        "docs": "https://github.com/zaengle/craft-awss3signedurls/blob/main/README.md",
-        "issues": "https://github.com/zaengle/craft-awss3signedurls/issues"
+        "docs": "https://github.com/zaengle/craft-awss3signedurls#README.md",
+        "issues": "https://github.com/zaengle/craft-awss3signedurls/issues",
+        "source": "https://github.com/zaengle/craft-awss3signedurls/tree/main"
     },
     "license": "MIT",
     "authors": [
         {
             "name": "Zaengle Corp",
-            "homepage": "https://zaengle.com"
+            "homepage": "https://zaengle.com/"
         }
     ],
     "require": {
-        "php": "^8.0|^8.1|^8.2",
-        "craftcms/cms": "^4.3.0",
-        "craftcms/aws-s3": "^2.0"
+
+        "php": "^8.2 | ^8.3"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "phpstan/phpstan": "^1.4"
-    },
-    "autoload": {
-        "psr-4": {
-          "zaengle\\awss3signedurls\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "AWS S3 Signed URLs",
-        "handle": "awss3signedurls",
-        "developer": "Zaengle Corp",
-        "developerUrl": "https://zaengle.com",
-        "documentationUrl": "https://github.com/zaengle/craft-awss3signedurls/blob/main/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/zaengle/craft-awss3signedurls/main/CHANGELOG.md",
-        "components": {
-            "awsS3SignedUrlsService": "Sign"
-        },
-        "class": "zaengle\\awss3signedurls\\AwsS3SignedUrls"
-    },
-    "config": {
-        "allow-plugins": {
-            "yiisoft/yii2-composer": true,
-            "craftcms/plugin-installer": true
-        }
+        "craftcms/aws-s3": "^2.2",
+        "craftcms/cms": "^5.1",
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main",
+        "craftcms/rector": "dev-main",
+        "roave/security-advisories": "dev-latest"
     },
     "scripts": {
-        "phpstan": "vendor/bin/phpstan analyse",
-        "fix-cs": "vendor/bin/php-cs-fixer fix src --allow-risky=yes"
+        "check-cs": "ecs check --ansi",
+        "coverage": "pest --coverage",
+        "fix-cs": "ecs check --ansi --fix --config ./ecs.php",
+        "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "test": "pest"
     }
 }

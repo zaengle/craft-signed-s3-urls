@@ -44,7 +44,7 @@ class Signer extends Component
     {
         $fs = $asset->getFs();
 
-        if (! $fs instanceof AwsS3Fs) {
+        if (!$fs instanceof AwsS3Fs) {
             throw new UnsupportedFsException('Asset is not an AWS S3 asset');
         }
 
@@ -73,8 +73,8 @@ class Signer extends Component
      */
     protected static function client(array $config = [], array $credentials = []): S3Client
     {
-        if (! empty($config['credentials']) && $config['credentials'] instanceof Credentials) {
-            $config['generateNewConfig'] = static function () use ($credentials) {
+        if (!empty($config['credentials']) && $config['credentials'] instanceof Credentials) {
+            $config['generateNewConfig'] = static function() use ($credentials) {
                 $args = [
                     $credentials['keyId'],
                     $credentials['secret'],
