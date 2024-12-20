@@ -1,4 +1,7 @@
 {
+    "name": "zaengle/craft-awss3signedurls",
+    "description": "Generate signed URLs for CraftCMS AWS S3 Craft Asset Volumes, including the ability to limit access.",
+    "type": "craft-plugin",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
@@ -9,6 +12,11 @@
         "sort-packages": true,
         "optimize-autoloader": true
 
+    },
+    "autoload": {
+        "psr-4": {
+            "zaengle\\awss3signedurls\\": "src/"
+        }
     },
     "support": {
         "docs": "https://github.com/zaengle/craft-awss3signedurls#README.md",
@@ -23,8 +31,7 @@
         }
     ],
     "require": {
-
-        "php": "^8.2 | ^8.3"
+        "php": "^8.2 | ^8.3 | ^8.4"
     },
     "require-dev": {
         "craftcms/aws-s3": "^2.2",
@@ -40,5 +47,19 @@
         "fix-cs": "ecs check --ansi --fix --config ./ecs.php",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
         "test": "pest"
+    },
+    "extra": {
+        "name": "AWS S3 Signed URLs",
+        "handle": "awss3signedurls",
+        "developer": "Zaengle Corp",
+        "developerUrl": "https://zaengle.com",
+        "documentationUrl": "https://github.com/zaengle/craft-awss3signedurls/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/zaengle/craft-awss3signedurls/master/CHANGELOG.md",
+        "components": {
+            "challenges": "zaengle\\awss3signedurls\\services\\Challenges",
+            "fs": "zaengle\\awss3signedurls\\services\\Fs",
+            "signer": "zaengle\\awss3signedurls\\services\\Signer"
+        },
+        "class": "zaengle\\awss3signedurls\\AwsS3SignedUrls"
     }
 }
